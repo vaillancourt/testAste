@@ -21,7 +21,7 @@ private:
   float mSideThrustersRadPerSec;
   float mRearThrustersKmPerSec;
   float mFrontThrustersKmPerSec;
-  float mVelocityMax;
+  float mSpeedMax;
 
   std::unique_ptr<sf::CircleShape> mShape;
   sf::Vector2f mFrontVector;

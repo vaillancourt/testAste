@@ -14,9 +14,9 @@ ShipSpace::ShipSpace()
   , mFrontVector( 0.0f, -1.0f )
   , mPosition(Global::GetInstance().getWorldWidth() / 2.0f, Global::GetInstance().getWorldHeight() / 2.0f )
   , mSideThrustersRadPerSec( sfUtil::PI )
-  , mRearThrustersKmPerSec( 0.10 )
-  , mFrontThrustersKmPerSec( 0.00000001 )
-  , mVelocityMax( 0.0000500 )
+  , mRearThrustersKmPerSec( 0.0010 )
+  , mFrontThrustersKmPerSec( 0.0005 )
+  , mSpeedMax( 0.00750 )
 {
   mShape->setFillColor( sf::Color( 255, 255, 255, 255 ) );
 
@@ -34,6 +34,8 @@ ShipSpace::~ShipSpace()
 void
 ShipSpace::update()
 {
+
+
   if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Left ) )
   {
     mTransform = mTransform.rotate( sfUtil::radiansToDegrees( -mSideThrustersRadPerSec * Global::GetInstance().getFrameTime() ) );
@@ -44,17 +46,43 @@ ShipSpace::update()
     mTransform = mTransform.rotate( sfUtil::radiansToDegrees( mSideThrustersRadPerSec * Global::GetInstance().getFrameTime() ) );
   }
 
-  if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Up ) )
+  bool shouldApplyOffset = false;
+
+  sf::Vector2f offset;
+
+  if (
+       sf::Keyboard::isKeyPressed( sf::Keyboard::Up )
+    && sf::Keyboard::isKeyPressed( sf::Keyboard::Down ) )
   {
-    sf::Vector2f offset = mFrontVector * ( mRearThrustersKmPerSec * Global::GetInstance().getFrameTime() );
+    offset =
+        (  mFrontVector * ( mRearThrustersKmPerSec  * Global::GetInstance().getFrameTime() ) )
+      + ( -mFrontVector * ( mFrontThrustersKmPerSec * Global::GetInstance().getFrameTime() ) );
+    shouldApplyOffset = true;
+  }
+  else if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Up ) )
+  {
+    offset = mFrontVector * ( mRearThrustersKmPerSec  * Global::GetInstance().getFrameTime() );
+    shouldApplyOffset = true;
+  }
+  else if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Down ) )
+  {
+    offset = -mFrontVector * ( mFrontThrustersKmPerSec * Global::GetInstance().getFrameTime() );
+    shouldApplyOffset = true;
+  }
+
+  if ( shouldApplyOffset )
+  {
     sf::Vector2f orientedOffset = mTransform * offset;
 
     mVelocity += orientedOffset;
 
     float currentSpeed = sfUtil::lenght( mVelocity );
 
-    if ( currentSpeed > mVelocityMax )
-      mVelocity = mVelocity / ( currentSpeed * mVelocityMax );
+    if ( currentSpeed > mSpeedMax )
+    {
+      sf::Vector2f direction = mVelocity / currentSpeed;
+      mVelocity = direction * mSpeedMax;
+    }
   }
 
   mPosition = mPosition + mVelocity;
@@ -78,5 +106,4 @@ ShipSpace::draw( sf::RenderTarget& aRenderTarget )
   mShape->setRotation( sfUtil::radiansToDegrees( angle ) );
   mShape->setPosition( position.x, position.y );
   aRenderTarget.draw( *mShape );
-
 }

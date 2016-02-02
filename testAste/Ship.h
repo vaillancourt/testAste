@@ -15,13 +15,9 @@ public:
 
   void ApplyTorusWorld( sf::Vector2f& aPosition )
   {
-    if ( aPosition.x < 0.0f )
-      aPosition.x = Global::GetInstance().getWorldWidth();
-    else if ( aPosition.x > Global::GetInstance().getWorldWidth() )
-      aPosition.x = 0.0f;
-    if ( aPosition.y < 0.0f )
-      aPosition.y = Global::GetInstance().getWorldHeight();
-    else if ( aPosition.y > Global::GetInstance().getWorldHeight() )
-      aPosition.y = 0.0f;
+    while ( aPosition.x < 0.0f                                   ) aPosition.x += Global::GetInstance().getWorldWidth();
+    while ( aPosition.x > Global::GetInstance().getWorldWidth()  ) aPosition.x -= Global::GetInstance().getWorldWidth();
+    while ( aPosition.y < 0.0f                                   ) aPosition.y += Global::GetInstance().getWorldHeight();
+    while ( aPosition.y > Global::GetInstance().getWorldHeight() ) aPosition.y -= Global::GetInstance().getWorldHeight();
   }
 };
