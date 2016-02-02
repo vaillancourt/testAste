@@ -3,17 +3,7 @@
  */
 #pragma once
 
-#include <memory>
-#include <vector>
-
-#include <SFML/Graphics/Sprite.hpp>
-
-namespace sf
-{
-  class Image;
-  class RenderTarget;
-  class Texture;
-}
+class Ship;
 
 class Simulation
 {
@@ -35,6 +25,7 @@ public:
 
 private:
 
+  std::unique_ptr<Ship> mShip;
 
   static std::unique_ptr<Simulation> Instance;
   static bool                        IsFromTerminate;;

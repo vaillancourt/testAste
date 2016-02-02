@@ -1,15 +1,12 @@
 /**
  * Copyright (c) 2016 Alexandre Vaillancourt. See full MIT license at the root of the repository.
  */
+#include "precomp.h"
+
 #include "Simulation.h"
-
-#include <SFML/Graphics/Image.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Texture.hpp>
-
-#include <iostream>
-#include <stdlib.h>
+#include "Ship.h"
+#include "ShipStiff.h"
+#include "ShipSpace.h"
 
 bool Simulation::IsFromTerminate = false;
 std::unique_ptr<Simulation> Simulation::Instance;
@@ -51,16 +48,20 @@ Simulation::~Simulation()
 void
 Simulation::populate()
 {
+  mShip.reset( new ShipSpace() );
 }
 
 
 void
 Simulation::simulateOneStep()
 {
+  if ( mShip )
+    mShip->update();
 }
 
 
 void
 Simulation::draw( sf::RenderTarget& aRenderTarget )
 {
+  mShip->draw( aRenderTarget );
 }

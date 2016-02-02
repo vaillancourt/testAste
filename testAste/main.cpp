@@ -1,15 +1,10 @@
 /**
  * Copyright (c) 2016 Alexandre Vaillancourt. See full MIT license at the root of the repository.
  */
+#include "precomp.h"
+
 #include "Global.h"
 #include "Simulation.h"
-
-#include <SFML/Graphics.hpp>
-#include <string>
-#include <chrono>
-#include <thread>
-#include <iostream>
-
 
 int 
 main(void)
@@ -47,10 +42,14 @@ main(void)
     window.display();
     
     auto now = std::chrono::high_resolution_clock::now();
-    if ( now < endTimePoint )
+    while ( std::chrono::high_resolution_clock::now() < endTimePoint )
     {
-      std::this_thread::sleep_until( endTimePoint );
+      now = std::chrono::high_resolution_clock::now();
     }
+    //if ( now < endTimePoint )
+    //{
+    //  std::this_thread::sleep_until( endTimePoint );
+    //}
     ++frameCount;
     if ( std::chrono::high_resolution_clock::now() > secondEnd )
     {

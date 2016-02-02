@@ -3,10 +3,18 @@
   <ItemGroup>
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="SfUtil.h" />
+    <ClInclude Include="ShipStiff.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="ShipSpace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="precomp.cpp" />
+    <ClCompile Include="ShipSpace.cpp" />
+    <ClCompile Include="ShipStiff.cpp" />
   </ItemGroup>
 </Project>

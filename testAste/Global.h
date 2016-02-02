@@ -5,8 +5,6 @@
 
 #define COLOUR_BACKGROUND 127, 255, 127
 
-#include <memory>
-
 class Global
 {
   Global(const Global& that) = delete;

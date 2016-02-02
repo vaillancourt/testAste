@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2016 Alexandre Vaillancourt. See full MIT license at the root of the repository.
  */
-#include "Global.h"
+#include "precomp.h"
 
-#include <iostream>
+#include "Global.h"
 
 bool Global::IsFromTerminate = false;
 std::unique_ptr<Global> Global::Instance;
